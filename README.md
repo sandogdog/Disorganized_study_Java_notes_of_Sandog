@@ -670,3 +670,73 @@ public class User {
 }
 ```
 ---
+
+### 45.在 Java 开发中，空指针异常（`NullPointerException`）通常发生在以下几种常见情况：
+
+1. **对空对象调用方法**：  
+   如果你试图调用一个为 `null` 的对象的实例方法，会抛出 `NullPointerException`。  
+   ```java
+   String str = null;
+   int length = str.length(); // 会抛出 NullPointerException
+   ```
+
+2. **访问空对象的成员变量**：  
+   如果你试图访问一个为 `null` 的对象的成员变量，也会抛出 `NullPointerException`。  
+   ```java
+   class Person {
+       String name;
+   }
+   Person p = null;
+   String name = p.name; // 会抛出 NullPointerException
+   ```
+
+3. **使用空数组访问元素**：  
+   如果数组本身为 `null`，并尝试访问其元素，也会抛出 `NullPointerException`。  
+   ```java
+   int[] arr = null;
+   int value = arr[0]; // 会抛出 NullPointerException
+   ```
+
+4. **对空集合调用方法**：  
+   如果集合对象是 `null`，并且尝试调用它的方法，如 `add()`, `get()` 等，也会导致 `NullPointerException`。  
+   ```java
+   List<String> list = null;
+   list.add("item"); // 会抛出 NullPointerException
+   ```
+
+5. **自动拆箱操作时遇到 `null`**：  
+   当你试图将一个 `null` 值拆箱为原始类型（例如 `Integer` 拆箱为 `int`）时，也会引发 `NullPointerException`。  
+   ```java
+   Integer num = null;
+   int n = num; // 会抛出 NullPointerException
+   ```
+
+6. **通过 `null` 调用静态方法**：  
+   尽管静态方法不需要对象实例，但如果你通过 `null` 来调用静态方法时，仍然会发生 `NullPointerException`。  
+   ```java
+   SomeClass obj = null;
+   obj.someStaticMethod(); // 会抛出 NullPointerException
+   ```
+
+预防 `NullPointerException`：  
+- **使用 `null` 检查**：在操作对象前，检查是否为 `null`。  
+  ```java
+  if (str != null) {
+      int length = str.length();
+  }
+  ```
+
+- **使用 `Optional` 类型**（Java 8 及以上版本）：`Optional` 可以有效避免显式的 `null` 检查。  
+  ```java
+  Optional<String> optionalStr = Optional.ofNullable(str);
+  optionalStr.ifPresent(s -> System.out.println(s.length()));
+  ```
+
+- **避免返回 `null` 值**：尽量避免方法返回 `null`，而是返回一个空对象或使用 `Optional`。  
+
+- **使用 `Objects.requireNonNull()`**：在方法开始处进行 `null` 检查。  
+  ```java
+  Objects.requireNonNull(str, "Input string cannot be null");
+  ```
+
+通过这些方法，你可以有效减少 `NullPointerException` 的发生，并提高代码的健壮性。
